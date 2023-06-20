@@ -19,6 +19,32 @@ Here's a typical excerpt of such a Googletest:
 
 Feed the text **excluding the first line** as standard input into the disassembler.
 
-The disassembler will stop at the first error it encounters. Usually, this happens to be the very last `-999`, because that isn't a legal opcode. Don't mind this, because the `-999` is a sentinel value that's at the end of the array intentionally. 
+Here's the result after disassembling the above:
+```
+   0:   sourceline   2
+   2:   thisaddr   0 [float 0]
+   4:   sourceline   3
+   6:   load.sp.offs   8
+   8:   memread4   ax
+  10:   push    ax
+  12:   movl    ax,   0 [float 0]
+  15:   pop     bx
+  17:   gt      bx,   ax
+  20:   mov     bx,   ax
+  23:   jzi     7 [to 32]
+  25:   sourceline   5
+  27:   movl    ax,   1 [float 1.4013e-45]
+  30:   jmpi    5 [to 37]
+  32:   sourceline   7
+  34:   movl    ax,   -1 [float -nan]
+  37:   sourceline   7
+  39:   ret     
+  40:   sourceline   8
+  42:   movl    ax,   9 [float 1.26117e-44]
+  45:   ret     
+  46:   Illegal opcode -999 EXITING
+  ```
 
-When a Bytecode Googletest fails, the old code that was previously generated is part of the googletest. You can call the Googletest in such a way that the new code is generated to a file. Convert the old code and the new code to assembly format and use an editor such as Notepad++ to highlight the assembly instructions that have changed. 
+Note: The disassembler will stop at the first error it encounters. Usually, this happens to be the very last `-999`, because that isn't a legal opcode. Don't mind this, because the `-999` is a sentinel value that's at the end of the array intentionally. 
+
+When a Bytecode Googletest fails, the old code that was previously generated is part of the googletest. You can call the Googletest in such a way that the new code is generated to a file. Convert the old code and the new code to assembly format and use an editor such as Notepad++ to diff the two and highlight the assembly instructions that have changed. 
