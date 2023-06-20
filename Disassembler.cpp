@@ -1,5 +1,8 @@
-// Disassembler.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+// Disassembler.cpp
+// A quick-and-dirty AGS Bytecode disassembler, for use together with googletests.
+// This source code is provided under the Artistic License 2.0.
+// A copy of this license can be found in the file License.txt and at
+// http://www.opensource.org/licenses/artistic-license-2.0.php
 
 #include <iostream>
 #include <map>
@@ -90,8 +93,10 @@
 #define SCMD_DYNAMICBOUNDS 71   // check reg1 is between 0 and m[MAR-4]
 #define SCMD_NEWARRAY     72    // reg1 = new array of reg1 elements, each of size arg2 (arg3=managed type?)
 #define SCMD_NEWUSEROBJECT 73   // reg1 = new user object of arg1 size
+#define SCMD_NEWUSEROBJECT2 74  // reg1 = new user object of arg2 type and arg3 size
+#define SCMD_NEWARRAY2    75    // reg1 = new array of reg1 elements, arg2 type and arg3 size
 
-#define CC_NUM_SCCMDS     74
+#define CC_NUM_SCCMDS     76
 
 struct ScriptCommandInfo
 {
@@ -177,6 +182,8 @@ struct ScriptCommandInfo
     { SCMD_DYNAMICBOUNDS   , "dynamicbounds"     , 1, { true, false, } },
     { SCMD_NEWARRAY        , "newarray"          , 3, { true, false, } },
     { SCMD_NEWUSEROBJECT   , "newuserobject"     , 2, { true, false, } },
+    { SCMD_NEWUSEROBJECT2  , "newuserobject2"    , 3, { true, false, } },
+    { SCMD_NEWARRAY2       , "newarray2"         , 3, { true, false, } },
  };
 
 const std::string regname[] = { "null", "sp", "mar", "ax", "bx", "cx", "op", "dx" };
@@ -274,6 +281,9 @@ int main()
                     opcode != SCMD_LOADSPOFFS &&
                     opcode != SCMD_NEWARRAY &&
                     opcode != SCMD_NEWUSEROBJECT &&
+                    opcode != SCMD_NUMFUNCARGS &&
+                    opcode != SCMD_SUBREALSTACK &&
+                    opcode != SCMD_THISBASE &&
                     opcode != SCMD_ZEROMEMORY);
             if (idx != sci.num_param - 1)
                 std::cout << ",   ";
