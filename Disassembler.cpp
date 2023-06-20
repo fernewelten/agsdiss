@@ -1,7 +1,6 @@
 // Disassembler.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include "pch.h"
 #include <iostream>
 #include <map>
 #include <string>
@@ -104,81 +103,81 @@ struct ScriptCommandInfo
 
  ScriptCommandInfo const sccmd_info[CC_NUM_SCCMDS] =
 {
-    { 0                    , "NULL"              , 0, { false, false } },
-    { SCMD_ADD             , "add"               , 2, { true, false } },
-    { SCMD_SUB             , "sub"               , 2, { true, false } },
-    { SCMD_REGTOREG        , "mov"               , 2, { true, true } },
-    { SCMD_WRITELIT        , "memwritelit"       , 2, { false, false } },
-    { SCMD_RET             , "ret"               , 0, { false, false } },
-    { SCMD_LITTOREG        , "mov"               , 2, { true, false } },
-    { SCMD_MEMREAD         , "memread"           , 1, { true, false } },
-    { SCMD_MEMWRITE        , "memwrite"          , 1, { true, false } },
-    { SCMD_MULREG          , "mul"               , 2, { true, true } },
-    { SCMD_DIVREG          , "div"               , 2, { true, true } },
-    { SCMD_ADDREG          , "add"               , 2, { true, true } },
-    { SCMD_SUBREG          , "sub"               , 2, { true, true } },
-    { SCMD_BITAND          , "bit_and"           , 2, { true, true } },
-    { SCMD_BITOR           , "bit_or"            , 2, { true, true } },
-    { SCMD_ISEQUAL         , "cmp"               , 2, { true, true } },
-    { SCMD_NOTEQUAL        , "ncmp"              , 2, { true, true } },
-    { SCMD_GREATER         , "gt"                , 2, { true, true } },
-    { SCMD_LESSTHAN        , "lt"                , 2, { true, true } },
-    { SCMD_GTE             , "gte"               , 2, { true, true } },
-    { SCMD_LTE             , "lte"               , 2, { true, true } },
-    { SCMD_AND             , "and"               , 2, { true, true } },
-    { SCMD_OR              , "or"                , 2, { true, true } },
-    { SCMD_CALL            , "call"              , 1, { true, false } },
-    { SCMD_MEMREADB        , "memread.b"         , 1, { true, false } },
-    { SCMD_MEMREADW        , "memread.w"         , 1, { true, false } },
-    { SCMD_MEMWRITEB       , "memwrite.b"        , 1, { true, false } },
-    { SCMD_MEMWRITEW       , "memwrite.w"        , 1, { true, false } },
-    { SCMD_JZ              , "jz"                , 1, { false, false } },
-    { SCMD_PUSHREG         , "push"              , 1, { true, false } },
-    { SCMD_POPREG          , "pop"               , 1, { true, false } },
-    { SCMD_JMP             , "jmp"               , 1, { false, false } },
-    { SCMD_MUL             , "mul"               , 2, { true, false } },
-    { SCMD_CALLEXT         , "farcall"           , 1, { true, false } },
-    { SCMD_PUSHREAL        , "farpush"           , 1, { true, false } },
-    { SCMD_SUBREALSTACK    , "farsubsp"          , 1, { false, false } },
-    { SCMD_LINENUM         , "sourceline"        , 1, { false, false } },
-    { SCMD_CALLAS          , "callscr"           , 1, { true, false } },
-    { SCMD_THISBASE        , "thisaddr"          , 1, { false, false } },
-    { SCMD_NUMFUNCARGS     , "setfuncargs"       , 1, { false, false } },
-    { SCMD_MODREG          , "mod"               , 2, { true, true } },
-    { SCMD_XORREG          , "xor"               , 2, { true, true } },
-    { SCMD_NOTREG          , "not"               , 1, { true, false } },
-    { SCMD_SHIFTLEFT       , "shl"               , 2, { true, true } },
-    { SCMD_SHIFTRIGHT      , "shr"               , 2, { true, true } },
-    { SCMD_CALLOBJ         , "callobj"           , 1, { true, false } },
-    { SCMD_CHECKBOUNDS     , "checkbounds"       , 2, { true, false } },
-    { SCMD_MEMWRITEPTR     , "memwrite.ptr"      , 1, { true, false } },
-    { SCMD_MEMREADPTR      , "memread.ptr"       , 1, { true, false } },
-    { SCMD_MEMZEROPTR      , "memwrite.ptr.0"    , 0, { false, false } },
-    { SCMD_MEMINITPTR      , "meminit.ptr"       , 1, { true, false } },
-    { SCMD_LOADSPOFFS      , "load.sp.offs"      , 1, { false, false } },
-    { SCMD_CHECKNULL       , "checknull.ptr"     , 0, { false, false } },
-    { SCMD_FADD            , "f.add"             , 2, { true, false } },
-    { SCMD_FSUB            , "f.sub"             , 2, { true, false } },
-    { SCMD_FMULREG         , "f.mul"             , 2, { true, true } },
-    { SCMD_FDIVREG         , "f.div"             , 2, { true, true } },
-    { SCMD_FADDREG         , "f.add"             , 2, { true, true } },
-    { SCMD_FSUBREG         , "f.sub"             , 2, { true, true } },
-    { SCMD_FGREATER        , "f.gt"              , 2, { true, true } },
-    { SCMD_FLESSTHAN       , "f.lt"              , 2, { true, true } },
-    { SCMD_FGTE            , "f.gte"             , 2, { true, true } },
-    { SCMD_FLTE            , "f.lte"             , 2, { true, true } },
-    { SCMD_ZEROMEMORY      , "zeromem"           , 1, { false, false } },
-    { SCMD_CREATESTRING    , "newstring"         , 1, { true, false } },
-    { SCMD_STRINGSEQUAL    , "strcmp"            , 2, { true, true } },
-    { SCMD_STRINGSNOTEQ    , "strnotcmp"         , 2, { true, true } },
-    { SCMD_CHECKNULLREG    , "checknull"         , 1, { true, false } },
-    { SCMD_LOOPCHECKOFF    , "loopcheckoff"      , 0, { false, false } },
-    { SCMD_MEMZEROPTRND    , "memwrite.ptr.0.nd" , 0, { false, false } },
-    { SCMD_JNZ             , "jnz"               , 1, { false, false } },
-    { SCMD_DYNAMICBOUNDS   , "dynamicbounds"     , 1, { true, false } },
-    { SCMD_NEWARRAY        , "newarray"          , 3, { true, false } },
-    { SCMD_NEWUSEROBJECT   , "newuserobject"     , 2, { true, false } },
-};
+    { 0                    , "NULL"              , 0, { false, false, } },
+    { SCMD_ADD             , "addi"              , 2, { true, false, } },
+    { SCMD_SUB             , "subi"              , 2, { true, false, } },
+    { SCMD_REGTOREG        , "mov"               , 2, { true, true, } },
+    { SCMD_WRITELIT        , "memwritelit"       , 2, { false, false, } },
+    { SCMD_RET             , "ret"               , 0, { false, false, } },
+    { SCMD_LITTOREG        , "movl"              , 2, { true, false, } },
+    { SCMD_MEMREAD         , "memread4"          , 1, { true, false, } },
+    { SCMD_MEMWRITE        , "memwrite4"         , 1, { true, false, } },
+    { SCMD_MULREG          , "mul"               , 2, { true, true, } },
+    { SCMD_DIVREG          , "div"               , 2, { true, true, } },
+    { SCMD_ADDREG          , "add"               , 2, { true, true, } },
+    { SCMD_SUBREG          , "sub"               , 2, { true, true, } },
+    { SCMD_BITAND          , "and"               , 2, { true, true, } },
+    { SCMD_BITOR           , "or"                , 2, { true, true, } },
+    { SCMD_ISEQUAL         , "cmpeq"             , 2, { true, true, } },
+    { SCMD_NOTEQUAL        , "cmpne"             , 2, { true, true, } },
+    { SCMD_GREATER         , "gt"                , 2, { true, true, } },
+    { SCMD_LESSTHAN        , "lt"                , 2, { true, true, } },
+    { SCMD_GTE             , "gte"               , 2, { true, true, } },
+    { SCMD_LTE             , "lte"               , 2, { true, true, } },
+    { SCMD_AND             , "land"              , 2, { true, true, } },
+    { SCMD_OR              , "lor"               , 2, { true, true, } },
+    { SCMD_CALL            , "call"              , 1, { true, false, } },
+    { SCMD_MEMREADB        , "memread1"          , 1, { true, false, } },
+    { SCMD_MEMREADW        , "memread2"          , 1, { true, false, } },
+    { SCMD_MEMWRITEB       , "memwrite1"         , 1, { true, false, } },
+    { SCMD_MEMWRITEW       , "memwrite2"         , 1, { true, false, } },
+    { SCMD_JZ              , "jzi"               , 1, { false, false, } },
+    { SCMD_PUSHREG         , "push"              , 1, { true, false, } },
+    { SCMD_POPREG          , "pop"               , 1, { true, false, } },
+    { SCMD_JMP             , "jmpi"              , 1, { false, false, } },
+    { SCMD_MUL             , "muli"              , 2, { true, false, } },
+    { SCMD_CALLEXT         , "farcall"           , 1, { true, false, } },
+    { SCMD_PUSHREAL        , "farpush"           , 1, { true, false, } },
+    { SCMD_SUBREALSTACK    , "farsubsp"          , 1, { false, false, } },
+    { SCMD_LINENUM         , "sourceline"        , 1, { false, false, } },
+    { SCMD_CALLAS          , "callscr"           , 1, { true, false, } },
+    { SCMD_THISBASE        , "thisaddr"          , 1, { false, false, } },
+    { SCMD_NUMFUNCARGS     , "setfuncargs"       , 1, { false, false, } },
+    { SCMD_MODREG          , "mod"               , 2, { true, true, } },
+    { SCMD_XORREG          , "xor"               , 2, { true, true, } },
+    { SCMD_NOTREG          , "not"               , 1, { true, false, } },
+    { SCMD_SHIFTLEFT       , "shl"               , 2, { true, true, } },
+    { SCMD_SHIFTRIGHT      , "shr"               , 2, { true, true, } },
+    { SCMD_CALLOBJ         , "callobj"           , 1, { true, false, } },
+    { SCMD_CHECKBOUNDS     , "checkbounds"       , 2, { true, false, } },
+    { SCMD_MEMWRITEPTR     , "memwrite.ptr"      , 1, { true, false, } },
+    { SCMD_MEMREADPTR      , "memread.ptr"       , 1, { true, false, } },
+    { SCMD_MEMZEROPTR      , "memwrite.ptr.0"    , 0, { false, false, } },
+    { SCMD_MEMINITPTR      , "meminit.ptr"       , 1, { true, false, } },
+    { SCMD_LOADSPOFFS      , "load.sp.offs"      , 1, { false, false, } },
+    { SCMD_CHECKNULL       , "checknull.ptr"     , 0, { false, false, } },
+    { SCMD_FADD            , "faddi"             , 2, { true, false, } },
+    { SCMD_FSUB            , "fsubi"             , 2, { true, false, } },
+    { SCMD_FMULREG         , "fmul"              , 2, { true, true, } },
+    { SCMD_FDIVREG         , "fdiv"              , 2, { true, true, } },
+    { SCMD_FADDREG         , "fadd"              , 2, { true, true, } },
+    { SCMD_FSUBREG         , "fsub"              , 2, { true, true, } },
+    { SCMD_FGREATER        , "fgt"               , 2, { true, true, } },
+    { SCMD_FLESSTHAN       , "flt"               , 2, { true, true, } },
+    { SCMD_FGTE            , "fgte"              , 2, { true, true, } },
+    { SCMD_FLTE            , "flte"              , 2, { true, true, } },
+    { SCMD_ZEROMEMORY      , "zeromem"           , 1, { false, false, } },
+    { SCMD_CREATESTRING    , "newstring"         , 1, { true, false, } },
+    { SCMD_STRINGSEQUAL    , "streq"             , 2, { true, true, } },
+    { SCMD_STRINGSNOTEQ    , "strne"             , 2, { true, true, } },
+    { SCMD_CHECKNULLREG    , "checknull"         , 1, { true, false, } },
+    { SCMD_LOOPCHECKOFF    , "loopcheckoff"      , 0, { false, false, } },
+    { SCMD_MEMZEROPTRND    , "memwrite.ptr.0.nd" , 0, { false, false, } },
+    { SCMD_JNZ             , "jnzi"              , 1, { false, false, } },
+    { SCMD_DYNAMICBOUNDS   , "dynamicbounds"     , 1, { true, false, } },
+    { SCMD_NEWARRAY        , "newarray"          , 3, { true, false, } },
+    { SCMD_NEWUSEROBJECT   , "newuserobject"     , 2, { true, false, } },
+ };
 
 const std::string regname[] = { "null", "sp", "mar", "ax", "bx", "cx", "op", "dx" };
 
@@ -200,7 +199,18 @@ void write_jump(int param)
     std::cout << param << " [to " << (index + 1 + param) << "]";
 }
 
+void write_lit(int param, bool convert_to_float)
+{
+    double d = *(float *) &param; // interpret as a float
+    std::cout.width(0);
+    std::cout << param;
+    if (convert_to_float)
+        std::cout << " [float " << d << ']';
+}
+
+
 inline bool input_ends() { return (std::cin.eof() || std::cin.fail()); }
+
 int get()
 {
     ++index;
@@ -222,12 +232,6 @@ int get()
     return ret;
 }
 
-void write_lit(int param)
-{
-    double d = *(float *)&param;
-    std::cout << param << "[float " << d << ']';
-}
-
 int main()
 {
     if ('=' == std::cin.peek())
@@ -239,9 +243,9 @@ int main()
     {
         
         int opcode = get();
-        std::cout.width(5);
+        std::cout.width(4);
         std::cout << index << ":   ";
-        std::cout.width(0);
+        
         if (input_ends()) break;
 
         if (opcode < 0 || opcode >= CC_NUM_SCCMDS)
@@ -251,10 +255,7 @@ int main()
         }
         ScriptCommandInfo sci = sccmd_info[opcode];
 
-        std::cout << "(" ;
-        std::cout.width(2);
-        std::cout << opcode << ")   ";
-        std::cout.width(4);
+        std::cout.width(5);
         std::cout.setf(std::ios::adjustfield, std::ios::left);
         std::cout << sci.mnemonic << "   ";
         std::cout.unsetf(std::ios::adjustfield);
@@ -262,12 +263,18 @@ int main()
         for (size_t idx = 0; idx < sci.num_param; ++idx)
         {
             int param = get();
-            if (sci.param_is_reg[idx])
+            if (idx < 2 && sci.param_is_reg[idx])
                 write_reg(param);
             else if (opcode == SCMD_JNZ || opcode == SCMD_JMP || opcode == SCMD_JZ)
                 write_jump(param);
             else
-                write_lit(param);
+                write_lit(param, 
+                    opcode != SCMD_CHECKBOUNDS &&
+                    opcode != SCMD_LINENUM &&
+                    opcode != SCMD_LOADSPOFFS &&
+                    opcode != SCMD_NEWARRAY &&
+                    opcode != SCMD_NEWUSEROBJECT &&
+                    opcode != SCMD_ZEROMEMORY);
             if (idx != sci.num_param - 1)
                 std::cout << ",   ";
         }
