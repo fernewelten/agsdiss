@@ -280,7 +280,9 @@ int main()
                     opcode != SCMD_LINENUM &&
                     opcode != SCMD_LOADSPOFFS &&
                     opcode != SCMD_NEWARRAY &&
+                    opcode != SCMD_NEWARRAY2 &&
                     opcode != SCMD_NEWUSEROBJECT &&
+                    opcode != SCMD_NEWUSEROBJECT2 &&
                     opcode != SCMD_NUMFUNCARGS &&
                     opcode != SCMD_SUBREALSTACK &&
                     opcode != SCMD_THISBASE &&
