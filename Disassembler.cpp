@@ -95,8 +95,9 @@
 #define SCMD_NEWUSEROBJECT 73   // reg1 = new user object of arg1 size
 #define SCMD_NEWUSEROBJECT2 74  // reg1 = new user object of arg2 type and arg3 size
 #define SCMD_NEWARRAY2    75    // reg1 = new array of reg1 elements, arg2 type and arg3 size
+#define SCMD_DYNAMICCAST  76    // convert *MAR to RTTI type arg1
 
-#define CC_NUM_SCCMDS     76
+#define CC_NUM_SCCMDS     77
 
 struct ScriptCommandInfo
 {
@@ -184,6 +185,7 @@ struct ScriptCommandInfo
     { SCMD_NEWUSEROBJECT   , "newuserobject"     , 2, { true, false, } },
     { SCMD_NEWUSEROBJECT2  , "newuserobject2"    , 3, { true, false, } },
     { SCMD_NEWARRAY2       , "newarray2"         , 3, { true, false, } },
+    { SCMD_DYNAMICCAST     , "cast.ptr"          , 1, { false, false, } },
  };
 
 const std::string regname[] = { "null", "sp", "mar", "ax", "bx", "cx", "op", "dx" };
